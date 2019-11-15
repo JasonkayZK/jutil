@@ -1,0 +1,234 @@
+package top.jasonkayzk.jutil;
+
+import top.jasonkayzk.jutil.model.Color;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Random;
+
+/**
+ * @author zk
+ */
+public class RandomUtils extends org.apache.commons.lang3.RandomUtils {
+
+    private RandomUtils() {}
+
+    /**
+     * 获取随机整数，下限为0，上限为{@link Integer#MAX_VALUE}
+     *
+     * @return {@link Integer}
+     */
+    public static int getRandomInteger() {
+        return getRandomInteger(0, Integer.MAX_VALUE);
+    }
+
+    /**
+     * 获取随机整数
+     *
+     * @param floor 下限
+     * @param ceil 上限
+     *
+     * @return {@link Integer}
+     */
+    public static int getRandomInteger(int floor, int ceil) {
+        return floor + new Random().nextInt(ceil - floor);
+    }
+
+    /**
+     * 根据整数长度获取随机数
+     *
+     * @param length 随机数的整数长度
+     *
+     * @return {@link Integer}
+     */
+    public static int getRandomInteger(int length) {
+        return getRandomInteger((int) Math.pow(10, length - 1), (int) Math.pow(10, length));
+    }
+
+    /**
+     * 获取随机字符串（包括大小写字母，数字和符号）
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     */
+    public static String getRandomString(int length) {
+        return getRandomText(32, 126, length);
+    }
+
+    /**
+     * 获取自定义随机字符串
+     *
+     * @param floor ascii下限
+     * @param ceil ascii上限
+     * @param length 长度
+     *
+     * @return 字符串
+     */
+    public static String getRandomText(int floor, int ceil, int length) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            builder.append((char) getRandomInteger(floor, ceil));
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 获取忽略多个区间段的随机整数
+     *
+     * @param floor 下限
+     * @param ceil 上限
+     * @param ranges 忽略区间（包含下限和上限长度为2的一维数组），可以有多个忽略区间
+     *
+     * @return {@link Integer}
+     */
+    public static int getRandomIntegerIgnoreRange(int floor, int ceil, int[]... ranges) {
+        int result = getRandomInteger(floor, ceil);
+        for (int[] range : ranges) {
+            if (range[0] <= result && result <= range[1]) {
+                if (range[0] > floor) {
+                    result = getRandomIntegerIgnoreRange(floor, range[0], ranges);
+                } else if (range[1] < ceil) {
+                    result = getRandomIntegerIgnoreRange(range[1], ceil, ranges);
+                } else {
+                    return -1;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 获取没有符号的随机字符串（包括大小写字母和数字）
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     */
+    public static String getRandomStringWithoutSymbol(int length) {
+        return getRandomTextIgnoreRange(48, 122, length, new int[]{58, 64}, new int[]{91, 96});
+    }
+
+    /**
+     * 获取自定义忽略多个区间的随机字符串
+     *
+     * @param floor ascii下限
+     * @param ceil ascii上限
+     * @param length 长度
+     * @param ranges 忽略区间（包含下限和上限长度为2的一维数组），可以有多个忽略区间
+     *
+     * @return 字符串
+     */
+    public static String getRandomTextIgnoreRange(int floor, int ceil, int length, int[]... ranges) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            builder.append((char) getRandomIntegerIgnoreRange(floor, ceil, ranges));
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 获取只有大小写字母的随机字符串
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     */
+    public static String getRandomStringOnlyLetter(int length) {
+        return getRandomTextIgnoreRange(65, 122, length, new int[]{91, 96});
+    }
+
+    /**
+     * 获取只有小写字母的随机字符串
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     */
+    public static String getRandomStringOnlyLowerCase(int length) {
+        return getRandomText(97, 122, length);
+    }
+
+    /**
+     * 获取只有大写字母的随机字符串
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     */
+    public static String getRandomStringOnlyUpperCase(int length) {
+        return getRandomText(65, 90, length);
+    }
+
+    /**
+     * 获取随机数字字符串
+     *
+     * @param length 长度
+     *
+     * @return {@link String}
+     *
+     * @since 1.1.0
+     */
+    public static String getRandomNumber(int length) {
+        return getRandomText(48, 58, length);
+    }
+
+    /**
+     * 获取随机浮点数，保留2位小数，下限为0，上限为{@link Double#MAX_VALUE}
+     *
+     * @return {@link Double}
+     */
+    public static double getRandomDouble() {
+        return getRandomDouble(0, Double.MAX_VALUE);
+    }
+
+    /**
+     * 获取随机浮点数，保留2位小数
+     *
+     * @param floor 下限
+     * @param ceil 上限
+     *
+     * @return {@link Double}
+     */
+    public static double getRandomDouble(double floor, double ceil) {
+        return getRandomDouble(floor, ceil, 2);
+    }
+
+    /**
+     * 获取随机浮点数
+     *
+     * @param floor 下限
+     * @param ceil 上限
+     * @param precision 精度（小数位数）
+     *
+     * @return {@link Double}
+     */
+    public static double getRandomDouble(double floor, double ceil, int precision) {
+        BigDecimal decimal = new BigDecimal(floor + new Random().nextDouble() * (ceil - floor));
+        return decimal.setScale(precision, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    /**
+     * 获取随机颜色
+     *
+     * @param opacity 不透明度
+     *
+     * @return {@link Color}
+     */
+    public static Color getRandomColor(double opacity) {
+        Random ran = new Random();
+        int b = ran.nextInt(255);
+        int r = 255 - b;
+        return new Color(b + ran.nextInt(r), b + ran.nextInt(r), b + ran.nextInt(r), opacity);
+    }
+
+    /**
+     * 获取随机颜色，默认不透明
+     *
+     * @return {@link Color}
+     */
+    public static Color getRandomColor() {
+        return getRandomColor(1d);
+    }
+
+}
