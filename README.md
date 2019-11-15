@@ -3,6 +3,7 @@
 本仓库将持续更新!
 
 **0.`top.jasonkayzk.jutil.BasicUtils`类**
+
 |方法名|简要说明|
 |------|---------------|
 |getCurrentOS|获取当前操作系统名称|
@@ -10,6 +11,7 @@
 
 
 **1.`top.jasonkayzk.jutil.RandomUtils`类**
+
 |方法名|简要说明|
 |------|---------------|
 |getRandomInteger|按照length, 或者range获取一个随机的整型|
