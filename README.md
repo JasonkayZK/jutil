@@ -2,6 +2,18 @@
 
 本仓库将持续更新!
 
+**使用Maven**
+
+``` xml
+<dependency>
+    <groupId>top.jasonkayzk</groupId>
+    <artifactId>jutil</artifactId>
+    <version>1.0.0-RELEASE</version>
+</dependency>
+```
+
+> [**GitHub地址**](https://github.com/jasonkayzk/jutil/)
+
 **0.`top.jasonkayzk.jutil.BasicUtils`类**
 
 |方法名|简要说明|
@@ -99,3 +111,35 @@
 |error|打印错误日志|
 |debug|打印调试日志|
 |fatal|打印严重错误日志|
+
+
+**5. 发送邮件**
+
+``` java
+// 导包
+import top.jasonkayzk.jutil.MailUtils;
+import top.jasonkayzk.jutil.enums.MailHostEnum;
+
+// 使用: 下面的key指的是开启了POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务，生成的授权码
+// MailHostEnum.QQ 即为 "smtp.qq.com", 支持: QQ, 163, GMAIL, OUTLOOK, SINA
+
+MailUtils.config(MailHostEnum.QQ, "Jasonkay", "271226192@qq.com", "你的授权key", 465);
+MailUtils.sendMail("xxxxxx@163.com", "测试邮件", "这是一封测试邮件");
+```
+
+
+**6. 网络文件下载**
+
+**注:** 内部已经使用了Checker判断了url的合法性!
+
+*使用*
+
+``` java
+// 1. 导包
+import top.jasonkayzk.jutil.DownloadUtils;
+
+// 2. 下载
+String storagePath = "/path", url = "http://fileUrl";
+Downloader.download(storagePath, url);
+```
+

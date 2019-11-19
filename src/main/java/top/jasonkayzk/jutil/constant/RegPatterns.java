@@ -42,4 +42,9 @@ public class RegPatterns {
     public static final Pattern IMAGES_PATTERN = Pattern.compile(".*\\.(bmp|gif|jpe?g|png|tiff?|pcx|tga|svg|pic)$",
         Pattern.CASE_INSENSITIVE);
 
+    /**
+     * 文件名匹配（不能包含非法字符）,忽略大小写
+     */
+    public static final Pattern FILE_NAME_PATTERN = Pattern.compile("([^/\\\\:*\"<>|?]+\\.)*[^/\\\\:*\"<>|?]+(\\?.*)" +
+        "?$", Pattern.CASE_INSENSITIVE);
 }
