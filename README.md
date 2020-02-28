@@ -1,4 +1,6 @@
-一个封装了Java Web开发常用功能的库.(JDK要求至少1.8及以上)
+![https://img.shields.io/badge/license-MIT-blue.svg?longCache=true&style=flat-square](https://img.shields.io/badge/license-MIT-blue.svg?longCache=true&style=flat-square) [![Build Status](https://www.travis-ci.org/JasonkayZK/jutil.svg?branch=master)](https://www.travis-ci.org/JasonkayZK/jutil)
+
+一个封装了Java Web开发常用功能的库(**JDK要求至少1.8及以上**)
 
 本仓库将持续更新!
 
